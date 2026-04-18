@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@100..900&display=swap');
+
+.ant-modal-title{
+    font-family: "M PLUS 1", sans-serif !important;
+}
+
+.modal-form{
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+    grid-gap: 24px;
+    font-family: "M PLUS 1", sans-serif !important;
+    .footer-btn{
+      font-family: "M PLUS 1", sans-serif !important;
+      .ant-btn{
+         font-family: "M PLUS 1", sans-serif !important;
+         height: 40px;
+      }
+}
+}
+
+

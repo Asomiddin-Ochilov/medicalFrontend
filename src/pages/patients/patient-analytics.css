@@ -1,0 +1,367 @@
+@import url('https://fonts.googleapis.com/css2?family=Nata+Sans:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@100..900&display=swap');
+/* DentalPage.css */
+.dental-container {
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: 50px;
+  padding-bottom: 30px;
+}
+
+.service-row {
+  display: flex;
+  margin-bottom: 40px;
+  gap: 40px;
+}
+
+.service-label {
+  width: 140px;
+  flex-shrink: 0;
+
+
+}
+
+.service-label h3 {
+  color: #073473;
+  font-family: "Nata Sans", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-bottom: 2px solid #073473;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+/* Tishlar seti (Grid) */
+.tooth-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.tooth-grid {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.jaw-half {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 1px solid transparent;
+}
+
+/* O'rtadagi gorizontal chiziq */
+.jaw-half::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #cbd5e0;
+  z-index: 1;
+}
+
+.tooth-row {
+  display: flex;
+}
+
+.tooth-item {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #cbd5e0;
+  position: relative;
+  z-index: 2;
+}
+
+.tooth-item:last-child {
+  border-right: none;
+}
+
+.tooth-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: white;
+  color: #000;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+   font-family: "Petrona", serif;
+}
+
+/* Tanlangan holatlar uchun ranglar */
+.tooth-btn.red-active {
+  background-color: #fc8181;
+  color: white;
+  width: 35px;
+  height: 35px;
+  box-shadow: 0 0 12px rgba(252, 129, 129, 0.7);
+}
+
+.tooth-btn.blue-active {
+  background-color: #90cdf4;
+  color: white;
+  box-shadow: 0 0 12px rgba(144, 205, 244, 0.7);
+}
+
+.tooth-btn.green-active {
+  background-color: #9ae6b4;
+  color: white;
+  box-shadow: 0 0 12px rgba(154, 230, 180, 0.7);
+}
+
+/* Narx inputi */
+.price-box {
+  border: 1px solid #bee3f8;
+  color: #2c5282;
+  padding: 5px 12px;
+  width: 150px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.save-btn {
+  float: right;
+  background:#fff;
+  border:2px solid #415FA1;
+  color: #2b457c;
+  padding: 8px 30px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 20px;
+ 
+  height:42px;
+  padding:0 22px;
+  border-radius:28px;
+  font-size: 16px;
+  cursor:pointer;
+}
+
+
+
+
+
+.save-btn:hover {
+  background-color: #ebf8ff;
+}
+
+
+.footer_{
+    display: flex;
+    align-items: center;
+    .price-edit-box{
+        margin-left: 20px;
+    }
+}
+
+.btnedit{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #2c5282;
+}
+
+.input_plomba{
+    display: flex;
+    align-items: center;
+    label{
+        font-size: 16px;
+        font-family: Rounded Mplus 1c;
+        font-weight: 500;
+        color: black;
+        margin-right: 5px;
+
+    }
+    input{
+        border: 1px solid #415FA1;
+        height: 20px;
+        border-radius: 10px;
+        outline: none;
+        width: 110px;
+        padding-left: 10px;
+        padding-top: 0;
+    }
+}
+
+.select_karonka1{
+    width: 120px;
+    .item{
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        margin: 10px 0;
+        label{
+        font-size: 16px;
+        font-family: Rounded Mplus 1c;
+        font-weight: 500;
+        color: black;
+
+        }
+    }
+}
+
+.select_protez{
+width: 50%;
+display: flex;
+align-items: center;
+justify-content: space-around;
+h3{
+    font-size: 16px;
+        font-family: Rounded Mplus 1c;
+        font-weight: 500;
+        color: #000;
+        margin-right: 5px;
+}
+.item{
+    display: flex;
+    align-items: center;
+
+     label{
+        font-size: 16px;
+        font-family: Rounded Mplus 1c;
+        font-weight: 500;
+        color: #415FA1;
+        margin-right: 10px;
+        }
+        input{
+            width: 17px;
+            height: 17px;
+        }
+}
+
+}
+
+.service-row2 {
+  display: flex;
+  margin-bottom: 40px;
+  gap: 40px;
+}
+
+.service-label2 {
+  width: auto;
+  flex-shrink: 0;
+
+
+}
+
+.service-label2 h3 {
+  color: #073473;
+  font-family: "Nata Sans", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-bottom: 2px solid #073473;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.input_plastmassa{
+width: 50%;
+display: flex;
+align-items: center;
+justify-content: space-around;
+
+ input{
+        border: 1px solid #415FA1;
+        height: 20px;
+        border-radius: 10px;
+        outline: none;
+        width: 110px;
+        padding-left: 10px;
+        padding-top: 0;
+        }
+label{
+    font-size: 16px;
+        font-family: Rounded Mplus 1c;
+        font-weight: 500;
+        color: #000;
+        margin-right: 5px;
+}
+
+
+
+
+}
+
+.select_plastmassa{
+    width: 30%;
+display: flex;
+align-items: center;
+justify-content: space-around;
+h3{
+       font-size: 16px;
+        font-family: Rounded Mplus 1c;
+        font-weight: 500;
+        color: #000;
+}
+.item{
+    display: flex;
+    align-items: center;
+
+     label{
+        font-size: 16px;
+        font-family: Rounded Mplus 1c;
+        font-weight: 500;
+        color: #415FA1;
+        margin-right: 10px;
+        }
+       
+}
+
+}
+
+
+body.dark .dental-container {
+  color: #e2e8f0;
+}
+
+
+body.dark .service-label h3,
+body.dark .service-label2 h3 {
+  color: #93c5fd;
+  border-bottom: 2px solid #1e293b;
+}
+
+
+body.dark .jaw-half::after {
+  background-color: #334155;
+}
+
+body.dark .tooth-item {
+  border-right: 1px solid #334155;
+}
+
+body.dark .tooth-btn {
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+body.dark .tooth-btn.red-active {
+  background-color: #ef4444;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.5);
+}
+
+body.dark .tooth-btn.blue-active {
+  background-color: #3b82f6;
+}
+
+body.dark .tooth-btn.green-active {
+  background-color: #22c55e;
+}
+
+body.dark .analytics-section{
+  background-color: transparent;
+}

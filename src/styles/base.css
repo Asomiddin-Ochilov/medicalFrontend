@@ -1,0 +1,78 @@
+
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    
+}
+
+.app{
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+
+/* LIGHT default */
+body.light {
+  background: #ffffff;
+  color: #000;
+}
+
+/* DARK MODE */
+body.dark {
+  background: #0f172a;
+  color: #fff;
+}
+
+/* cardlar */
+body.dark .add-card {
+  background-color: #1e293b;
+  border-color: #334155;
+}
+
+/* inputlar */
+body.dark input,
+body.dark .ant-input {
+  background: #0f172a !important;
+  color: #fff !important;
+}
+
+/* navbar */
+body.dark .topbar {
+  background: #1e293b;
+}
+
+/* textlar */
+body.dark .topbar-user-name,
+body.dark .topbar-user-role {
+  color: #fff;
+}
+
+
+body.dark input,
+body.dark .ant-input {
+  background: #0f172a !important;
+  color: white !important;
+  border-color: #334155 !important;
+}
+
+body.dark .ant-input-affix-wrapper {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+
+body.dark .sched-page{
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 24px;
+    padding: 24px;
+}
+
+
+body.dark .users-page{
+    background: transparent;
+   
+}

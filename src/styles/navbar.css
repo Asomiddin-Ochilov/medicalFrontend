@@ -1,0 +1,262 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@100..900&display=swap');
+
+.topbar{
+  height: 60px;
+  border: 2px solid #0E4EA9;
+  border-radius: 6px;
+ 
+  padding: 0 20px;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  width: 100%;
+  background-color: #fff !important;
+  box-shadow: 0px 4px 4px 0px #00000040;
+}
+
+.topbar-title-pill{
+  display:flex;
+  align-items:center;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.topbar-title{
+  font-size: 30px;
+  font-weight: 300 !important;
+  color: #0E4EA9;
+  letter-spacing: .5px;
+  font-family: "Noto Sans Lao", sans-serif;
+}
+
+.topbar-right{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+}
+
+.topbar-icons{
+  display:flex;
+  align-items:center;
+  gap: 6px;
+}
+
+.topbar-ico-btn{
+  width: 28px;
+  height: 28px;
+  display:grid;
+  place-items:center;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: #415FA1;
+  border-radius: 6px;
+}
+
+.topbar-ico-btn:hover{
+  background: #eaf3ff;
+}
+
+.topbar-user{
+  display:flex;
+  align-items:center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 10px;
+  background: #fff;
+  .topbar-user-box{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+}
+.ant-dropdown-menu-item span{
+     font-family: "M PLUS 1", sans-serif !important;
+     font-size: 13px;
+  }
+
+.topbar-user-text{
+     line-height: 1.05;
+     margin-left: 10px;
+    
+    }
+
+.topbar-user-name{
+  font-weight: 800;
+  font-size: 12px;
+  color: #0E4EA9;
+}
+
+.topbar-user-role{
+  font-size: 11px;
+  color: #0E4EA9C7;
+  margin-top: 2px;
+}
+
+.topbar-lang-btn{
+  height: 28px;
+  padding: 0 10px;
+  display:flex;
+  align-items:center;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #415FA1;
+  font-weight: 700;
+  cursor: pointer;
+
+}
+
+.topbar-lang-btn:hover{
+  background: #eaf3ff;
+}
+
+.topbar-lang-text{
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+
+
+.lang-item{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  min-width: 160px;
+}
+
+.lang-check{
+  width: 16px;
+  display:inline-block;
+  opacity: 0;             /* tanlanmagan bo‘lsa ko‘rinmaydi */
+  transform: translateY(-1px);
+  font-weight: 900;
+}
+
+.lang-check.on{
+  opacity: 1;             /* tanlanganda ✓ chiqadi */
+}
+
+.lang-label{
+  font-size: 14px;
+}
+
+
+.ant-drawer-content{
+  
+}
+
+.notif-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notif-item {
+  padding: 12px;
+  border-radius: 10px;
+  background: #f5f7fb;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.notif-item:hover {
+  background: #e6f0ff;
+}
+
+.notif-title {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.notif-time {
+  font-size: 12px;
+  color: #888;
+  margin-top: 5px;
+}
+
+
+body.dark .notif-item {
+  background: #1e293b;
+  color: #e2e8f0;
+}
+
+body.dark .notif-item:hover {
+  background: #334155;
+}
+
+body.dark .ant-drawer-content {
+  background: #0f172a;
+  color: #fff;
+   font-family: "Noto Sans Lao", sans-serif !important;
+}
+
+.drawer_content{
+  font-family: "Noto Sans Lao", sans-serif !important;
+}
+
+/* ===================== */
+/* 🌙 NAVBAR DARK MODE   */
+/* ===================== */
+
+body.dark .topbar {
+  background-color: #0f172a !important;
+  border: 1px solid #1e293b;
+  box-shadow: none;
+}
+
+body.dark .topbar-title {
+  color: #e2e8f0;
+}
+
+body.dark .topbar-title-pill {
+  background: transparent;
+}
+
+body.dark .topbar-ico-btn {
+  color: #e2e8f0;
+}
+
+body.dark .topbar-ico-btn:hover {
+  background: #1e293b;
+}
+
+body.dark .topbar-lang-btn {
+  background: #0f172a;
+  color: #e2e8f0;
+  border: 1px solid #1e293b;
+}
+
+body.dark .topbar-lang-btn:hover {
+  background: #1e293b;
+}
+
+body.dark .topbar-user {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+}
+
+body.dark .topbar-user-name {
+  color: #e2e8f0;
+}
+
+body.dark .topbar-user-role {
+  color: #94a3b8;
+}
+
+/* dropdown menu dark */
+body.dark .ant-dropdown-menu {
+  background: #0f172a;
+  border: none !important;
+}
+
+body.dark .ant-dropdown-menu-item {
+  color: #e2e8f0;
+}
+
+body.dark .ant-dropdown-menu-item:hover {
+  background: #1e293b !important;
+}

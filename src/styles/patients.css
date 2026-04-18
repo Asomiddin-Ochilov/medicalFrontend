@@ -1,0 +1,281 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Passion+One:wght@400;700;900&display=swap');
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+.page-patients{
+  font-family: "M PLUS 1", sans-serif !important;
+}
+.toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  /* gap:16px; */
+  padding:16px 0;
+  /* background:var(--bg); */
+}
+
+.left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex:1;
+}
+
+
+
+.table-wrap{
+  margin-top: 10px;
+  background-color: #0E4EA999 !important;
+  border-radius: 15px;
+  padding: 20px;
+  width: 100%;
+}
+.patients-table .ant-table{
+  border-radius: 10px;
+   height: 80vh;
+  overflow-y: scroll;
+  overflow-x: hidden !important;
+  font-family: "M PLUS 1", sans-serif !important;
+  
+  
+}
+.patients-table .ant-table-body{
+  max-height: 80vh;      /* yoki siz xohlagan balandlik */
+  overflow-y: auto;
+  overflow-x: hidden;
+   font-weight: bold !important;
+}
+
+.patients-table .ant-table-tbody > tr:hover > td {
+  background: rgba(65, 95, 161, 0.08) !important; /* yengil ko‘k */
+  transition: background 0.2s ease;
+  font-weight: bold;
+}
+
+/* cursor ham qo‘shib qo‘yamiz */
+.patients-table .ant-table-tbody > tr {
+  cursor: pointer;
+  font-weight: bold !important;
+}
+
+/* Scrollbar */
+.patients-table .ant-table-body::-webkit-scrollbar{
+  width: 10px;
+}
+
+.patients-table .ant-table-body::-webkit-scrollbar-track{
+  background: #ffffff;
+  border-radius: 10px;
+}
+
+.patients-table .ant-table-body::-webkit-scrollbar-thumb{
+  background: #0856ff8c !important;
+  border-radius: 10px;
+}
+
+.patients-table .ant-table-body::-webkit-scrollbar-thumb:hover{
+  background: #f7f7f7bf !important;
+}
+.patients-table .ant-table-thead > tr{
+  background-color: #6E95CB !important;
+  cursor: pointer !important;
+  &:hover{
+    background-color: red !important;
+  }
+}
+.patients-table .ant-table-thead > tr > th{
+  background:#6E95CB !important;
+  color:#fff !important;
+  font-weight: 800;
+ border-width: 1px;
+border-style: solid;
+ text-align: center;
+border-color: #B9B9B9;
+font-size: 13px;
+
+  border-right: none;
+  &::before{
+    display: none;
+  }
+}
+
+.patients-table .ant-table-tbody > tr > td{
+  border: 1px solid #d9e2f286;
+  text-align: center;
+}
+
+
+.filterWrap{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  .resetBtn{
+    height: 26px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 16px;
+  background: #fc5a5a;
+  color:#fff;
+  font-weight: 700;
+  cursor:pointer;
+  border: 1px solid #fc5a5a;
+  font-family: Rounded Mplus 1c;
+font-weight: 500;
+margin-right: 10px;
+font-size: 12px;
+  }
+}
+
+.filterPopup{
+  position: absolute;
+  top: 46px;
+  left: -10px;
+  width: auto;
+  background: #C4E0FF;
+  border-radius: 5px;
+  padding: 10px 12px 12px;
+  box-shadow: 0 18px 40px rgba(0,0,0,.18);
+  z-index: 50;
+}
+
+.filterPopup::before{
+  content:"";
+  position:absolute;
+  top:-8px;
+  left: 22px;
+  width: 14px;
+  height: 14px;
+  background:#cfe4ff;
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+
+.filterTitle{
+  text-align:center;
+  color:#415FA1;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: .5px;
+  margin-bottom: 8px;
+}
+
+.filterGrid{
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 10px 14px;
+  align-items: start;
+}
+
+.filterCol{
+  display:flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fRow{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+  color:#0E4EA9;
+  font-weight: 500;
+}
+
+.fRow span{
+  min-width: 56px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #0E4EA9;
+}
+
+.fRow input{
+  height: 22px;
+  width: 60px;
+  border: 2px solid #0E4EA9;
+  border-radius: 4px;
+  outline: none;
+  padding: 0 6px;
+  background: #eaf3ff;
+  color:#12315f;
+}
+
+.fRow.wide{
+  justify-content:flex-start;
+}
+
+.fRow.wide span{
+  min-width: 140px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #0E4EA9;
+}
+
+.fRow.wide input{
+  width: 120px;
+  font-size: 12px;
+}
+
+.filterActions{
+  display:flex;
+  justify-content:flex-end;
+  margin-top: 4px;
+}
+
+.saveBtn{
+  height: 26px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 16px;
+  background: #415FA1;
+  color:#fff;
+  font-weight: 700;
+  cursor:pointer;
+  border: 1px solid #0E4EA9;
+  font-family: Rounded Mplus 1c;
+font-weight: 500;
+
+font-size: 12px;
+
+
+
+}
+
+.saveBtn:hover{
+  filter: brightness(1.05);
+}
+
+
+.btn.danger{
+  background:#ff4d4f;
+  color:white;
+  border:none;
+  width:120px;
+  height:42px;
+  border-radius: 26px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+}
+
+
+.analytics-section{
+   position: relative;
+   
+  width: 100%;
+  margin: 40px auto;
+  padding: 28px 32px 36px;
+  border: 5px solid #325ece;
+  border-radius: 22px;
+  background-color: #fff;
+  height: auto;
+  /* sizdagi bg */
+  background-image: url("../pages/patients/bg.png");
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}

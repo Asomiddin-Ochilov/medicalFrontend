@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Monda:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@100..900&display=swap');
+
+
+.dcCard{
+  background: #6BB0FF80;
+  border-radius:15px;
+  padding:22px;
+  width: 33%;
+  height: 300px;
+ 
+}
+
+.dcTitle{
+  font-size:20px;
+  font-weight:700;
+  letter-spacing:6px;
+  color:#ffffff;
+  text-transform:uppercase;
+  font-family: "Monda", sans-serif;
+  margin-bottom: 15px;
+}
+
+/* list */
+.dcList{
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+/* row */
+.dcRow{
+ background: linear-gradient(180deg, #496E99 -5.36%, #79B8FF 118.42%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  white-space: nowrap;
+  transition: width 0.3s ease;
+  padding: 5px;
+}
+
+.dcRowBorder{
+  border-bottom: 1px solid #ffffff;
+}
+
+/* left percent */
+.dcPct{
+  font-weight: 400;
+  font-size: 14px;
+  color: white;
+  font-family: "M PLUS 1", sans-serif ;
+}
+
+/* right label */
+.dcLabel{
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: white;
+  font-family: "M PLUS 1", sans-serif ;
+}

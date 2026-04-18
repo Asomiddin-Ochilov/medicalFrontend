@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Monda:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@100..900&display=swap');
+
+
+.pieCard{
+  background: #6BB0FF80;
+  border-radius:15px;
+  padding:0;
+  width: 33%;
+}
+
+.pieTitle{
+  font-size:20px;
+  font-weight:700;
+  letter-spacing:6px;
+  color:#ffffff;
+  margin-bottom:10px;
+  text-transform:uppercase;
+  font-family: "Monda", sans-serif;
+  padding: 20px ;
+  padding-bottom: 0;
+}
+
+.pieBody{
+  display: flex;
+  align-items:center;
+}
+
+
+.pieWrap{
+  display:grid;
+  place-items:center;
+}
+
+.pieLegend{
+
+  display:flex;
+  width: 60%;
+  flex-wrap: wrap;
+  justify-content: end;
+
+  gap:18px;
+
+}
+
+.pieRow{
+  display:flex;
+  align-items:center;
+  justify-content:end;
+  gap:18px;
+}
+
+.pieLeft{
+  width: 120px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  justify-content: start;
+}
+
+.pieDot{
+  width:22px;
+  height:22px;
+  border-radius:999px;
+
+}
+
+.pieLabel{
+  font-weight:700;
+  letter-spacing:3px;
+  color:#fefeff;
+  font-family: "M PLUS 1", sans-serif ;
+  font-size: 12px;
+}
+
+.pieVal{
+  font-weight:900;
+  color:#014FBDDE;
+  font-size:12px;
+  font-family: "M PLUS 1", sans-serif ;
+  margin-right: 15px; 
+}

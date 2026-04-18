@@ -1,0 +1,80 @@
+
+.searchBox{
+  position:relative;
+  width:370px;
+  border: 2px solid #0E4EA9;
+  border-radius: 6px;
+}
+
+.searchBox input{
+  width:100%;
+  height:40px;
+  padding:0 44px 0 14px;
+  border:none;
+  border-radius:6px;
+  outline:none;
+  font-size:14px;
+  color:#0f172a;
+  background:#fff;
+}
+
+.searchBox input::placeholder{
+  color:#0E4EA9;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.iconBtn{
+  position:absolute;
+  right:8px;
+  top:50%;
+  transform:translateY(-50%);
+  width:40px;
+  height:40px;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  color:#0E4EA9;
+  display:grid;
+  font-size: 30px;
+  place-items:center;
+}
+
+.filterBtn{
+  height:40px;
+  width:44px;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  color:#0E4EA9;
+  display:grid;
+  place-items:center;
+  margin-left: 20px;
+}
+
+.addBtn{
+  height:40px;
+  width: 170px;
+  border: 2px solid #0E4EA9;
+  border-radius:6px;
+  background:#fff;
+  color:#0E4EA9;
+  font-weight:600;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:.15s;
+  font-size: 20px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Passion One", sans-serif;
+}
+
+.addBtn:hover{
+  background:rgba(47,109,246,.08);
+}
+
+.addBtn:active{
+  transform:translateY(1px);
+}

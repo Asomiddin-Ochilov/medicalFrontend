@@ -1,0 +1,55 @@
+.chartCard{
+  background:#eaf4ff;
+  border:2px solid #2d72d2;
+  border-radius:12px;
+  padding:14px;
+  box-shadow:0 6px 20px rgba(0,0,0,.08);
+  width: 33%;
+}
+
+.chartTitle{
+  margin-bottom:10px;
+  color:#1d4ed8;
+  font-size:13px;
+  text-transform:uppercase;
+}
+
+/* Disease */
+
+.diseaseList{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.diseaseRow{
+  display:grid;
+  grid-template-columns: 50px 1fr 140px;
+  gap:10px;
+  align-items:center;
+  font-size:12px;
+}
+
+.diseasePct{
+  font-weight:700;
+  color:#1e40af;
+}
+
+.diseaseBarWrap{
+  height:9px;
+  background:#cfe1ff;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.diseaseBar{
+  height:100%;
+  background:#2563eb;
+  border-radius:20px;
+}
+
+.diseaseName{
+  text-align:right;
+  font-weight:600;
+  color:#1e3a8a;
+}

@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Passion+One:wght@400;700;900&display=swap');
+.priceToolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:12px;
+   font-family: "M PLUS 1", sans-serif !important;
+   margin-top: 45px;
+}
+
+
+  
+
+
+.ptLeft{ 
+  display: flex;
+  }
+.ptMid{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#2b4a7a;
+  font-weight:600;
+  user-select:none;
+  margin-left: 20px;
+}
+.ptRange{
+  font-size:13px;
+  opacity:.9;
+}
+
+.navBtn{
+  width:32px;
+  height:32px;
+  border-radius:10px;
+  border:1px solid #cfe0ff;
+  background:#fff;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+}
+.navBtn:disabled{ opacity:.45; cursor:not-allowed; }
+
+.ptRight{ display:flex; align-items:center; }
+
+.specialBtn{
+  background:#0E4EA9;
+  color:#fff;
+  border:none;
+  height:40px;
+  width: 166px;
+  border-radius:6px;
+  font-weight:700;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  gap:8px;
+  font-size: 16px;
+  /* letter-spacing: 40%; */
+    font-family: "Passion One", sans-serif;
+}
+.specialBtn .star{ font-size:14px; }
+
+/* TABLE */
+.priceTableWrap{
+  border:2px solid #2b6bff;
+  border-radius:14px;
+  overflow:hidden;
+  background:#fff;
+  margin-top: 3%;
+   font-family: "M PLUS 1", sans-serif !important;
+}
+
+.priceTable .ant-table{
+  border-radius:0;
+}
+.priceTable .ant-table-thead > tr > th{
+  background: linear-gradient(0deg,#0E4EA9, #5689D0);
+  color:#fff;
+  font-weight:800;
+  letter-spacing:1px;
+  text-align:center;
+  border-bottom:none;
+}
+.priceTable .ant-table-thead > tr > th:first-child{
+  width:52px;
+}
+
+.priceTable .ant-table-tbody > tr > td{
+  
+  border-bottom:1px solid #000000b6;
+  border-left: 1px solid #000000b6;
+
+}
+
+.p-title{
+  color:#979797;
+  font-weight:500;
+  font-size: 16px;
+  font-family: "M PLUS 1", sans-serif !important;
+}
+
+/* tanlangan row (rasmdagi ko‘k fon) */
+.rowActive td{
+  background:#eaf2ff !important;
+}
+
+
+.priceCell{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center !important;
+  gap:10px;
+  height: 30px;
+  p{
+    color: #9E9FDA;
+    font-weight: 500;
+    font-size: 16px;
+    margin-bottom: 0;
+
+  }
+
+}
+
+
+.editBtn{
+  width:30px;
+  height:30px;
+  border-radius:8px;
+  border:1px solid transparent;
+  background:transparent;
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  color:#0E4EA9;
+  font-size: 20px;
+}
+
+
+.addRow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px;
+  width: 100%;
+
+}
+
+.simpleInput {
+  padding: 8px 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+  transition: 0.2s;
+  width: 41%;
+  height: 40px;
+}
+
+.simpleInput:focus {
+  border-color: #0E4EA9;
+}
+
+.priceInput {
+  width: 41%;
+  height: 40px;
+}
+
+.addBtn2 {
+  padding: 8px 18px;
+  border-radius: 6px;
+  border: none;
+  background: #0E4EA9;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+  height: 40px;
+  width: 16%;
+}
+
+.addBtn2:hover {
+  opacity: 0.9;
+}
+
+.addBtn2:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
