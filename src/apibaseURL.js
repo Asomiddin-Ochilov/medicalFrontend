@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://apimedical.site/api",
+  baseURL: "https://www.apimedical.site/api",
    headers: {
     "Content-Type": "application/json"
   }
