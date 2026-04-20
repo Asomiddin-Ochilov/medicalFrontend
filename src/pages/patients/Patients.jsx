@@ -99,7 +99,14 @@ const handleFilterSave = (filters) => {
   render: (_, record) =>
     record.birth ? dayjs(record.birth).format("DD.MM.YYYY") : "-",
 },
-    { title: "Jinsi", dataIndex: "gender" },
+    {
+  title: "Jinsi",
+  render: (_, record) => {
+    if (record.gender === "male" || record.gender === "erkak") return "Erkak";
+    if (record.gender === "female" || record.gender === "ayol") return "Ayol";
+    return "-";
+  },
+},
     { title: "Mobil Raqami", dataIndex: "phone" },
     {
   title: "Ro‘yxatga olingan sana",

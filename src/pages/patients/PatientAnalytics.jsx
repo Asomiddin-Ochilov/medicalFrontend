@@ -12,13 +12,13 @@ const DentalPage = ({ data }) => {
     crown: []
   });
 const [isModalOpen, setIsModalOpen] = useState(false);
-
+const [paidAmount, setPaidAmount] = useState("");
 const [payment, setPayment] = useState({
-  total: 0,
-  paid: 0,
-  debt: 0
+  total: '',
+  paid: '',
+ 
 });
-const [paidAmount, setPaidAmount] = useState(0);
+
 const [temporary, setTemporary] = useState({ type: "", price: '' });
 const [cleaning, setCleaning] = useState({ type: "", price: '' });
 const [fillingType, setFillingType] = useState("");
@@ -32,9 +32,9 @@ const prosthesisOptions = ["bio", "termo", "oddiy", "prof"];
 const temporaryOptions = ["silikon", "metal"];
 const cleaningOptions = ["air-flow", "skeller"];
 const [customPrices, setCustomPrices] = useState({
-  extraction: 0,
-  filling: 0,
-  crown: 0
+  extraction: "",
+  filling: "",
+  crown: ""
 });
 
 const [editing, setEditing] = useState({
@@ -134,6 +134,18 @@ const calculatePrice = (category) => {
   );
 };
 
+const formatPrice = (value) => {
+  if (value === null || value === undefined) return "";
+  return Number(String(value).replace(/\D/g, "")).toLocaleString("ru-RU");
+};
+
+
+
+const formatMoney = (value) => {
+  if (value === null || value === undefined) return "";
+  return Number(String(value).replace(/\D/g, "")).toLocaleString("ru-RU");
+};
+
 const getTotal = () => {
   return (
     calculatePrice('extraction') +
@@ -148,6 +160,10 @@ const handleSave = async () => {
   try {
     setLoading(true);
 
+    const newPaid = Number(payment.paid || 0) + Number(paidAmount || 0);
+    const total = getTotal();
+    const debt = total - newPaid;
+
     const payload = {
       userName: data.userName,
       birth: data.birth,
@@ -156,33 +172,36 @@ const handleSave = async () => {
       gender: data.gender,
 
       dental: {
-        extraction: fixArray(selectedTeeth.extraction),
-        filling: fixArray(selectedTeeth.filling),
-        crown: fixArray(selectedTeeth.crown),
+        extraction: selectedTeeth.extraction,
+        filling: selectedTeeth.filling,
+        crown: selectedTeeth.crown,
         prosthesis,
         temporary,
         cleaning,
-        total: getTotal()
+        total
       },
 
-      // 🔥 PAYMENT QO‘SHILDI
       payment: {
-        total: getTotal(),
-        paid: payment.paid,
-        debt: getTotal() - payment.paid
+        total,
+        paid: newPaid,
+        debt: debt < 0 ? 0 : debt
       }
     };
 
-    console.log(payload);
-    
-
     await api.put(`/patients/${data._id}`, payload);
 
+    setPayment({
+      total,
+      paid: newPaid,
+      debt: debt < 0 ? 0 : debt
+    });
+
+    setPaidAmount("");
+    setIsModalOpen(false);
+
     message.success("✅ Saqlandi");
-
-    setIsModalOpen(false); // 🔥 modal yopiladi
-
   } catch (err) {
+    console.log(err);
     message.error("❌ Xatolik");
   } finally {
     setLoading(false);
@@ -221,6 +240,9 @@ const toggleTooth = (category, num) => {
     }
   });
 };
+const currentDebt = getTotal() - Number(payment.paid || 0);
+
+
 
 const renderJawHalf = (topNums, bottomNums, category, activeClass) => (
   <div className="jaw-half">
@@ -260,36 +282,71 @@ const renderJawHalf = (topNums, bottomNums, category, activeClass) => (
     <div className="dental-container">
 
       <Modal
+      footer={false}
   title="💳 To‘lov qilish"
   open={isModalOpen}
   onCancel={() => setIsModalOpen(false)}
   onOk={handleSave}
+  className="paymentModal"
 >
-  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+  <div className="paymentBox">
 
-    <div>
-      <b>Umumiy summa:</b> {getTotal().toLocaleString()} SUM
+    <div className="paymentRow">
+      <b>Umumiy summa:</b>
+      <span className="amount">{getTotal().toLocaleString()} SUM</span>
     </div>
 
-    <div>
-      <b>To‘lanadigan:</b> {getTotal().toLocaleString()} SUM
+    <div className="paymentRow">
+      <b>To‘lanadigan:</b>
+      <span className="amount">{getTotal().toLocaleString()} SUM</span>
     </div>
 
     <div>
       <b>To‘langan summa:</b>
-      <input
-        type="number"
-        value={payment.paid}
-        onChange={(e) => handlePaymentChange(e.target.value)}
-        style={{ width: "100%", padding: "5px" }}
-      />
+    <input
+  className="paymentInput"
+  type="text"
+  inputMode="numeric"
+  value={formatMoney(paidAmount)}
+ onChange={(e) => {
+  const raw = Number(e.target.value.replace(/\D/g, ""));
+  const maxDebt = getTotal() - Number(payment.paid || 0);
+
+  if (raw > maxDebt) {
+    setPaidAmount(String(maxDebt));
+  } else {
+    setPaidAmount(String(raw));
+  }
+}}
+  placeholder="Summani kiriting"
+/>
     </div>
 
-    <div>
-      <b>Qarz:</b> {payment.debt.toLocaleString()} SUM
+    <div className="paymentRow">
+      <b>Qarz:</b>
+      <span>{currentDebt.toLocaleString()} SUM</span>
     </div>
+    <div className="modalFooter">
+  
+  <button
+    className="btnDanger"
+    onClick={() => setIsModalOpen(false)}
+  >
+     Yopish
+  </button>
+
+  <button
+  className="btnPrimary"
+  onClick={handleSave}
+  disabled={loading}
+>
+  {loading ? "Yuklanmoqda..." : "⬇ Yuklash"}
+</button>
+
+</div>
 
   </div>
+  
 </Modal>
       
       <div className="service-row">
@@ -312,6 +369,7 @@ const renderJawHalf = (topNums, bottomNums, category, activeClass) => (
         className="price-box"
         value={customPrices.extraction}
         onChange={(e) =>
+          
           setCustomPrices(prev => ({
             ...prev,
             extraction: Number(e.target.value)
@@ -624,6 +682,34 @@ const renderJawHalf = (topNums, bottomNums, category, activeClass) => (
 >
   Saqlash
 </button>
+
+
+<div className="payment-footer">
+  <div className="payment-item">
+    <span>Umumiy:</span>
+    <b>{getTotal().toLocaleString()} SUM</b>
+  </div>
+
+  <div className="payment-item">
+    <span>To‘langan:</span>
+    <b>{Number(payment.paid || 0).toLocaleString()} SUM</b>
+  </div>
+
+  <div className="payment-item">
+    <span>Qarz:</span>
+    <b>{Number(payment.debt || 0).toLocaleString()} SUM</b>
+  </div>
+
+  {Number(payment.debt) > 0 && (
+    <button
+      className="pay-btn"
+      onClick={() => setIsModalOpen(true)}
+    >
+      To‘lash
+    </button>
+  )}
+</div>
+
     </div>
   );
 };

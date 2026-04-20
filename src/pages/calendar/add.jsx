@@ -2,42 +2,66 @@ import { Modal, Input, Select, Button, message } from "antd";
 import api from '../../apibaseURL'
 import { useState, useEffect } from "react";
 import './main.css'
+import { DatePicker, TimePicker } from "antd";
+import dayjs from "dayjs";
 const { Option } = Select;
 
 export default function AddCalendarModal({ open, onClose, visitTime }) {
   const [doctors, setDoctors] = useState([]);
   const [patients, setPatients] = useState([]);
   const [services, setServices] = useState([]);
-  const [form, setForm] = useState({
-    patientId: "",
-    patientName: "",
-    doctorId: "",
-    doctorName: "",
-    tooth: "",
-    disease: "Tish davolash",
-    price: 0,
-    note: "",
-  });
+ const [form, setForm] = useState({
+  patientId: "",
+  patientName: "",
+  doctorId: "",
+  doctorName: "",
+  tooth: "",
+  disease: "Tish davolash",
+  price: 0,
+  note: "",
+
+  // 🔥 ADD THIS
+  appointmentDate: "",
+  appointmentFrom: "",
+  appointmentTo: ""
+});
+const timeSlots = [
+  "08:00",
+  "09:00",
+  "10:00",
+  "11:00",
+  "12:00",
+  "13:00",
+  "14:00",
+  "15:00",
+  "16:00",
+  "17:00"
+];
+const [calendarList, setCalendarList] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("med_auth_token");
-        const [docRes, patRes, serRes] = await Promise.all([
-          api.get("/calendar/doctors", {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-          api.get("/patients", {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-          api.get("/calendar/service", {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-        ]);
+        const [docRes, patRes, serRes, calRes] = await Promise.all([
+  api.get("/calendar/doctors", {
+    headers: { Authorization: `Bearer ${token}` },
+  }),
+  api.get("/patients", {
+    headers: { Authorization: `Bearer ${token}` },
+  }),
+  api.get("/calendar/service", {
+    headers: { Authorization: `Bearer ${token}` },
+  }),
+  api.get("/calendar", {
+    headers: { Authorization: `Bearer ${token}` },
+  }),
+]);
 
-        setDoctors(docRes.data);
-        setPatients(patRes.data);
-        setServices(serRes.data);
+setDoctors(docRes.data);
+setPatients(patRes.data);
+setServices(serRes.data);
+setCalendarList(calRes.data);
       } catch (err) {
         message.error("Doctor yoki bemorlarni olishda xatolik");
       }
@@ -45,56 +69,85 @@ export default function AddCalendarModal({ open, onClose, visitTime }) {
     fetchData();
   }, []);
 
+
+  const isTimeBusy = () => {
+  if (
+    !form.doctorId ||
+    !form.appointmentDate ||
+    !form.appointmentFrom ||
+    !form.appointmentTo
+  ) {
+    return false;
+  }
+
+  return calendarList.some(item => {
+    if (item.doctorId !== form.doctorId) return false;
+    if (item.appointment?.date !== form.appointmentDate) return false;
+
+    const newStart = dayjs(`${form.appointmentDate} ${form.appointmentFrom}`);
+    const newEnd = dayjs(`${form.appointmentDate} ${form.appointmentTo}`);
+
+    const oldStart = dayjs(`${item.appointment.date} ${item.appointment.from}`);
+    const oldEnd = dayjs(`${item.appointment.date} ${item.appointment.to}`);
+
+    return newStart.isBefore(oldEnd) && newEnd.isAfter(oldStart);
+  });
+};
+
   const handleChange = (field, value) => {
     setForm(prev => ({ ...prev, [field]: value }));
   };
 
   const handleSave = async () => {
-    try {
-      const requiredFields = ["patientId", "doctorId", "disease", "price"];
-      for (let field of requiredFields) {
-        console.log(field);
-        
-        if (!form[field]) {
-          return message.warning("Iltimos barcha majburiy maydonlarni to‘ldiring");
+  try {
+    if (isTimeBusy()) {
+      return message.error("Bu vaqtda doctor band");
+    }
+
+    const token = localStorage.getItem("med_auth_token");
+
+    await api.post(
+      "/calendar",
+      {
+        patientId: form.patientId,
+        patientName: form.patientName,
+        doctorId: form.doctorId,
+        doctorName: form.doctorName,
+        disease: form.disease,
+        price: Number(form.price),
+        note: form.note,
+        appointmentDate: form.appointmentDate,
+        appointmentFrom: form.appointmentFrom,
+        appointmentTo: form.appointmentTo
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
       }
+    );
 
-      const token = localStorage.getItem("med_auth_token");
-      await api.post(
-        "/calendar",
-        {
-          patientId: form.patientId,
-          patientName: form.patientName,
-          doctorId: form.doctorId,
-          doctorName: form.doctorName,
-          disease: form.disease,
-          price: Number(form.price),
-          visitTime,
-          note: form.note || "",
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-    
-      message.success("Bemor yozildi");
-      onClose();
-      // formni reset qilish
-      setForm({
-        patientId: "",
-        patientName: "",
-        doctorId: "",
-        doctorName: "",
-        tooth: "",
-        disease: "Tish davolash",
-        price: 0,
-        note: "",
-      });
-    } catch (err) {
-      console.error(err);
-      message.error("Saqlashda xatolik");
-    }
-  };
+    message.success("Qabul saqlandi");
+    onClose();
 
+  } catch (err) {
+    console.error(err);
+    message.error("Saqlashda xatolik");
+  }
+};
+
+
+const getAppointmentForCell = (doctorId, time) => {
+  return calendars.find(item => {
+    if (item.doctorId !== doctorId) return false;
+    if (!item.appointment?.from || !item.appointment?.to) return false;
+
+    const start = item.appointment.from;
+    const end = item.appointment.to;
+
+    return time >= start && time < end;
+  });
+};
   return (
     <Modal
       title="Bemor yozish"
@@ -174,6 +227,53 @@ export default function AddCalendarModal({ open, onClose, visitTime }) {
             ))}
           </Select>
         </div>
+
+        <div className="modal-input">
+  <label>Qabul kuni</label>
+  <DatePicker
+    style={{ width: "100%" }}
+    value={form.appointmentDate ? dayjs(form.appointmentDate) : null}
+    onChange={(date, dateString) =>
+      handleChange("appointmentDate", dateString)
+    }
+  />
+</div>
+
+<div style={{ display: "flex", gap: "10px" }}>
+
+  {/* BOSHLANISH */}
+  <TimePicker
+    format="HH:mm"
+    placeholder="Boshlanish"
+    style={{ width: "50%" }}
+    value={
+      form.appointmentFrom
+        ? dayjs(form.appointmentFrom, "HH:mm")
+        : null
+    }
+    onChange={(time) => {
+      if (!time) return;
+      handleChange("appointmentFrom", time.format("HH:mm"));
+    }}
+  />
+
+  {/* TUGASH */}
+  <TimePicker
+    format="HH:mm"
+    placeholder="Tugash"
+    style={{ width: "50%" }}
+    value={
+      form.appointmentTo
+        ? dayjs(form.appointmentTo, "HH:mm")
+        : null
+    }
+    onChange={(time) => {
+      if (!time) return;
+      handleChange("appointmentTo", time.format("HH:mm"));
+    }}
+  />
+
+</div>
 
         {/* Narx */}
         <div className="modal-input">

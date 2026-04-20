@@ -5,17 +5,29 @@ import AddCalendarModal from "./add";
 import SearchInput from "../../app/SearchInput";
 import PrimaryButton from "../../app/PrimaryButton";
 import { useNavigate } from "react-router-dom";
-import { Spin } from "antd";
+import { Spin , Modal, TimePicker, message,Button } from "antd";
+import dayjs from "dayjs";
 export default function SchedulePage() {
 
   const navigate = useNavigate();
   const days = ["DUSH", "SESH", "CHOR", "PAY", "JUM", "SHAM", "YAK"];
-  const times = ["9.00", "11.00", "13.00", "15.00", "17.00"];
+  const times = [
+  "08:00",
+  "09:00",
+  "10:00",
+  "11:00",
+  "12:00",
+  "13:00",
+  "14:00",
+  "15:00",
+  "16:00",
+  "17:00"
+];
    const [loading, setLoading] = useState(false);
   const [q, setQ] = useState("");
   const [appointments, setAppointments] = useState([]);
   const [openId, setOpenId] = useState(null);
-
+const [editItem, setEditItem] = useState(null);
   // ✅ Modal state
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedVisitTime, setSelectedVisitTime] = useState(new Date());
@@ -49,40 +61,33 @@ export default function SchedulePage() {
   }, []);
 
   // doctorlarni unique qilish
-  const doctors = useMemo(() => {
+ const doctors = useMemo(() => {
+  const map = {};
 
-    const map = {};
+  appointments.forEach((a) => {
+    if (!map[a.doctorId]) {
+      map[a.doctorId] = {
+        id: a.doctorId,
+        name: a.doctorName,
+        appointments: []
+      };
+    }
 
-    appointments.forEach((a) => {
-      if (!map[a.doctorId]) {
-        map[a.doctorId] = {
-          id: a.doctorId,
-          name: a.doctorName,
-          appointments: [],
-        };
-      }
+    const date = dayjs(a.appointment?.date);
+    const day = date.day() === 0 ? 6 : date.day() - 1;
 
-      const date = new Date(a.visitTime);
-
-      const day = date.getDay() === 0 ? 6 : date.getDay() - 1;
-      const hour = date.getHours();
-
-      let timeIndex = times.findIndex((t) => parseInt(t) === hour);
-
-      if (timeIndex === -1) timeIndex = 0;
-
-     map[a.doctorId].appointments.push({
-  day,
-  time: timeIndex,
-  name: a.patientName,
-  patientId: a.patientId,
-  status: a.status,
-});
+    map[a.doctorId].appointments.push({
+      id: a._id,
+      day,
+      from: a.appointment?.from,
+      to: a.appointment?.to,
+      name: a.patientName,
+      patientId: a.patientId
     });
+  });
 
-    return Object.values(map);
-
-  }, [appointments]);
+  return Object.values(map);
+}, [appointments]);
 
   return (
     <div className="sched-page">
@@ -99,7 +104,10 @@ export default function SchedulePage() {
       <Spin size="large" />
     </div> : <React.Fragment>
       <div className="sched-toolbar">
-        <SearchInput value={q} onChange={setQ} />
+        <SearchInput
+  value={q}
+  onChange={(val) => setQ(typeof val === "string" ? val : val?.target?.value || "")}
+/>
 
         <PrimaryButton onClick={()=>setModalOpen(true)}>
           Bemor qo‘shish
@@ -111,15 +119,16 @@ export default function SchedulePage() {
      
   <div className="doc-accordion">
     {doctors.map((doctor) => (
-      <DoctorItem
-        key={doctor.id}
-        doctor={doctor}
-        days={days}
-        times={times}
-        q={q}
-        isOpen={openId === doctor.id}
-        onToggle={toggle}
-      />
+     <DoctorItem
+  key={doctor.id}
+  doctor={doctor}
+  days={days}
+  times={times}
+  q={q}
+  isOpen={openId === doctor.id}
+  onToggle={toggle}
+  refresh={fetchCalendar}
+/>
     ))}
 
     {modalOpen && (
@@ -142,7 +151,7 @@ export default function SchedulePage() {
   );
 }
 
-function DoctorItem({ doctor, days, times, q, isOpen, onToggle }) {
+function DoctorItem({ doctor, days, times, q, isOpen, onToggle, refresh }) {
 
   return (
     <div className={`doc-item ${isOpen ? "open" : ""}`}>
@@ -171,76 +180,163 @@ function DoctorItem({ doctor, days, times, q, isOpen, onToggle }) {
       </button>
 
       <div className="doc-body" style={{ display: isOpen ? "block" : "none" }}>
-        <DoctorSchedule doctor={doctor} days={days} times={times} q={q} />
+       <DoctorSchedule
+  doctor={doctor}
+  days={days}
+  times={times}
+  q={q}
+  refresh={refresh}
+/>
       </div>
 
     </div>
   );
 }
 
-function DoctorSchedule({ doctor, days, times, q }) {
-    const navigate = useNavigate();
+function DoctorSchedule({ doctor, days, times, q, refresh }) {
+  const navigate = useNavigate();
+  const [editItem, setEditItem] = useState(null);
 
-  const appts = useMemo(() => {
+ const appts = useMemo(() => {
+  const list = doctor.appointments || [];
 
-    const list = doctor.appointments || [];
+  const safeQ = typeof q === "string" ? q : "";
 
-    if (!q.trim()) return list;
+  if (!safeQ.trim()) return list;
 
-    const s = q.trim().toLowerCase();
+  return list.filter(a =>
+    a.name.toLowerCase().includes(safeQ.toLowerCase())
+  );
+}, [doctor.appointments, q]);
 
-    return list.filter((a) => a.name.toLowerCase().includes(s));
+  const getCellAppts = (dayIndex, timeLabel) => {
+  return appts.filter(a => {
+    if (a.day !== dayIndex) return false;
+    return a.from === timeLabel; // 🔥 faqat boshlanishida chiqadi
+  });
+};
 
-  }, [doctor.appointments, q]);
-
-  const getCellAppts = (d, t) => appts.filter((a) => a.day === d && a.time === t);
+const getDuration = (from, to) => {
+  const start = dayjs(from, "HH:mm");
+  const end = dayjs(to, "HH:mm");
+  return end.diff(start, "hour");
+};
 
   return (
-    <div className="sched-board">
-      <div className="sched-grid">
+    <>
+      <div className="sched-board">
+        <div className="sched-grid">
+          <div className="cell head left">SOAT</div>
 
-        <div className="cell head left">SOAT</div>
+          {days.map(day => (
+            <div className="cell head" key={day}>{day}</div>
+          ))}
 
-        {days.map((d) => (
-          <div className="cell head" key={d}>
-            {d}
-          </div>
-        ))}
+          {times.map(time => (
+            <React.Fragment key={time}>
+              <div className="cell time left">{time}</div>
 
-        {times.map((tLabel, t) => (
-          <React.Fragment key={tLabel}>
+              {days.map((_, d) => {
+                const items = getCellAppts(d, time);
 
-            <div className="cell time left">{tLabel}</div>
-
-            {days.map((_, d) => {
-
-              const items = getCellAppts(d, t);
-
-              return (
-                <div className="cell slot" key={`${d}-${t}`}>
-                  <div className="slot-inner">
-                       
-                    {items.slice(0, 2).map((it, idx) => (
-                      <div onClick={() => navigate(`/bemorlar/${it.patientId}`)} className="chip" key={idx} style={{cursor:'pointer'}}>
-                        {it.name}  
-                        {console.log(items)
-                       }
-                      </div>
+                return (
+                  <div className="cell slot" key={`${d}-${time}`}>
+                    {items.map(item => (
+                      <div
+  className="chip"
+  style={{
+    gridRowEnd: `span ${getDuration(item.from, item.to)}`
+  }}
+  onClick={() => setEditItem(item)}
+>
+  {item.name}
+  <br />
+  <small>{item.from} - {item.to}</small>
+</div>
                     ))}
-
                   </div>
-                </div>
-              );
-            })}
-
-          </React.Fragment>
-        ))}
-
+                );
+              })}
+            </React.Fragment>
+          ))}
+        </div>
       </div>
-    </div>
+
+      {editItem && (
+        <EditCalendarModal
+          open={true}
+          item={editItem}
+          onClose={() => setEditItem(null)}
+          reload={refresh}
+          onView={() => navigate(`/bemorlar/${editItem.patientId}`)}
+        />
+      )}
+    </>
   );
 }
 
 
+function EditCalendarModal({ open, item, onClose, reload, onView }) {
+  const [from, setFrom] = useState(dayjs(item?.from, "HH:mm"));
+  const [to, setTo] = useState(dayjs(item?.to, "HH:mm"));
+  const [loading, setLoading] = useState(false);
 
+  const handleUpdate = async () => {
+    try {
+      setLoading(true);
 
+      const token = localStorage.getItem("med_auth_token");
+
+      await api.put(`/calendar/${item._id}`, {
+        appointmentFrom: from.format("HH:mm"),
+        appointmentTo: to.format("HH:mm"),
+      });
+
+      message.success("Yangilandi");
+      reload();
+      onClose();
+
+    } catch (err) {
+      console.log(err);
+      message.error("Xatolik");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Modal
+      open={open}
+      onCancel={onClose}
+      footer={null}
+      title="Qabul ma'lumoti"
+    >
+      <Button block onClick={onView} style={{ marginBottom: 15 }}>
+        Bemor profiliga o‘tish
+      </Button>
+
+      <TimePicker
+        format="HH:mm"
+        value={from}
+        onChange={setFrom}
+        style={{ width: "100%", marginBottom: 10 }}
+      />
+
+      <TimePicker
+        format="HH:mm"
+        value={to}
+        onChange={setTo}
+        style={{ width: "100%", marginBottom: 15 }}
+      />
+
+      <Button
+        type="primary"
+        block
+        loading={loading}
+        onClick={handleUpdate}
+      >
+        Saqlash
+      </Button>
+    </Modal>
+  );
+}

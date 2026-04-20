@@ -277,5 +277,5 @@ font-size: 12px;
   background-image: url("../pages/patients/bg.png");
   background-position: bottom center;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
 }

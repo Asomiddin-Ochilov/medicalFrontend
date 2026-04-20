@@ -7,12 +7,14 @@ import lady from "./ledy.png";
 import { DeleteOutlined , DownOutlined} from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import PatientAnalytics from "./PatientAnalytics";
+import PhotoControlPage from "./PhotoControlPage";
 const OnePage = () => {
   const { id } = useParams();
 const formRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [data,setData] = useState(null)
+  
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [form, setForm] = useState({
     firstName: "",
@@ -276,14 +278,18 @@ const formRef = useRef(null);
           </>
         )}
       </div>
-      {showAnalytics && (
-  <div ref={formRef} className="analytics-section">
+     {showAnalytics && (
+  <>
+    <div ref={formRef} className="analytics-section">
+      <h2 className="add-title">Be’mor Anketasi</h2>
+      <PatientAnalytics data={data} />
+    </div>
 
-    <h2 className="add-title">Be’mor Anketasi</h2>
-
-   <PatientAnalytics data={data &&  data} />
-
-  </div>
+    <div className="analytics-section">
+      <h2 className="add-title">Foto Kontrol</h2>
+      <PhotoControlPage data={data} />
+    </div>
+  </>
 )}
     </div>
   );
