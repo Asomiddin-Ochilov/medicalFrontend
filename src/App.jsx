@@ -4,24 +4,24 @@ import { Routes, Route, useNavigate,Navigate } from "react-router-dom";
 import api from '../src/apibaseURL'
 import {  message,Spin } from "antd";
 import { ConfigProvider, theme as antdTheme } from "antd";
-import Login from "./pages/Login";
-import Dashboard from "./pages/dashboard/Dashboard";
-import Patients from "./pages/patients/Patients";
-import OnePage from "./pages/patients/onepage";
-import AddPatient from "./pages/patients/add";
-import AppShell from "./app/AppShell";
+import Login from "./pages/Login.jsx";
+import Dashboard from "./pages/dashboard/Dashboard.jsx";
+import Patients from "./pages/patients/Patients.jsx";
+import OnePage from "./pages/patients/onepage.jsx";
+import AddPatient from "./pages/patients/add.jsx";
+import AppShell from "./app/AppShell.jsx";
 import "./styles/base.css";
-import SchedulePage from "./pages/calendar/SchedulePage";
-import EmployeePage from "./pages/employee/employee";
-import PricePage from "./pages/price/price";
-import AddHR from "./pages/employee/adduser";
-import OneUser from "./pages/employee/oneuser";
-import EditUser from "./pages/employee/edituser";
-import PriceAdd from "./pages/price/addPrice";
-import MessagePage from "./pages/message/message";
-import DebtorsPage from "./pages/debtors/debtors";
-import OnePageDebtors from "./pages/debtors/onepagedebtors";
-import SettingsPage from "./pages/settings/settings";
+import SchedulePage from "./pages/calendar/schedulePage.jsx";
+import EmployeePage from "./pages/employee/employee.jsx";
+import PricePage from "./pages/price/price.jsx";
+import AddHR from "./pages/employee/adduser.jsx";
+import OneUser from "./pages/employee/oneuser.jsx";
+import EditUser from "./pages/employee/edituser.jsx";
+import PriceAdd from "./pages/price/addPrice.jsx";
+import MessagePage from "./pages/message/message.jsx";
+import DebtorsPage from "./pages/debtors/debtors.jsx";
+import OnePageDebtors from "./pages/debtors/onepagedebtors.jsx";
+import SettingsPage from "./pages/settings/settings.jsx";
 
 const theme = {
   token: {
