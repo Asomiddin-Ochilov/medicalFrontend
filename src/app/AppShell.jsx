@@ -4,6 +4,7 @@ import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 import logo from "../assets/logo.png";
+import logo1 from "../assets/logo1.png";
 
 import menu1 from "../assets/sidebar/menu1.svg";
 import menu2 from "../assets/sidebar/menu2.svg";
@@ -104,7 +105,7 @@ if (/^\/price\/[^/]+\/edit$/.test(path)) return "Narx tahrirlash";
         className={`sider ${collapsed ? "is-collapsed" : ""}`}
       >
         <div className="brand">
-          <img className="brand-img" src={logo} alt="logo" />
+          <img className="brand-img" src={logo1} alt="logo" />
           <div className="brand-text">
             <div className="brand-title">MEDICAL</div>
             <div className="brand-sub">CLINIC</div>
