@@ -148,6 +148,11 @@ const getAppointmentForCell = (doctorId, time) => {
     return time >= start && time < end;
   });
 };
+
+const disablePastDates = (current) => {
+  return current && current < dayjs().startOf("day");
+};
+
   return (
     <Modal
       title="Bemor yozish"
@@ -236,6 +241,7 @@ const getAppointmentForCell = (doctorId, time) => {
     onChange={(date, dateString) =>
       handleChange("appointmentDate", dateString)
     }
+    disabledDate={disablePastDates}
   />
 </div>
 

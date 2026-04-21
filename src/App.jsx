@@ -15,6 +15,7 @@ import SchedulePage from "./pages/calendar/schedulePage.jsx";
 import EmployeePage from "./pages/employee/employee.jsx";
 import PricePage from "./pages/price/price.jsx";
 import AddHR from "./pages/employee/adduser.jsx";
+import Hr from "./pages/employee/hr.jsx";
 import OneUser from "./pages/employee/oneuser.jsx";
 import EditUser from "./pages/employee/edituser.jsx";
 import PriceAdd from "./pages/price/addPrice.jsx";
@@ -130,6 +131,7 @@ useEffect(() => {
 
             
             <Route path="users" element={<EmployeePage />} />
+            <Route path="users/hr" element={<Hr />} />
             <Route path="users/add" element={<AddHR />} />
             <Route path="users/:id" element={<OneUser />} />
             <Route path="users/:id/edit" element={<EditUser />} />

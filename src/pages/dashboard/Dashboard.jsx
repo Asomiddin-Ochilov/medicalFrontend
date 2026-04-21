@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 
 import PatientsPieChart from "./PatientsPieChart";
 import MonthlyHealthChart from "./MonthlyHealthChart";
@@ -10,33 +10,82 @@ import img3 from './img/3.svg'
 import doctor from './img/doctor.svg'
 import gold from './img/gold.svg'
 import calendar from './img/calendar.svg'
-
+import api from '../../apibaseURL'
 
 
 
 import "./dashboard.css";
 import SearchInput from "../../app/SearchInput";
 import PrimaryButton from "../../app/PrimaryButton";
+import { useNavigate } from "react-router-dom";
 
 
 
-// --- Ma'lumotlar ---
-const mockData = [
-  { id: 1, name: "Laylo Ergasheva", date: "12.03.23", amount: "200$", status: "tolangan" },
-  { id: 2, name: "Shahzod Toirov", date: "01.05.21", amount: "150$", status: "tolanmagan" },
-  { id: 3, name: "Malika Komilova", date: "07.08.21", amount: "3.000$", status: "tolangan" },
-  { id: 4, name: "Diyor Karimov", date: "01.05.21", amount: "180$", status: "tolanmagan" },
-  { id: 5, name: "Islom Abdug'afforov", date: "01.05.21", amount: "50$", status: "tolangan" },
-  { id: 6, name: "Javohir Qodirov", date: "29.10.23", amount: "50$", status: "tolangan" },
-  { id: 7, name: "Nodira Sattorova", date: "01.05.21", amount: "200$", status: "tolanmagan" },
-];
 
 
 export default function Dashboard() {
 
   
-
+  const navigate = useNavigate()
+  const [patients, setPatients] = useState([]);
+const [tab, setTab] = useState("all");
+const [loading, setLoading] = useState(false);
  const [q, setQ] = useState("");
+
+ const changeSearch=(e)=>{
+ 
+ setQ(e.target.value)
+ 
+ }
+const loadPatients = async (selectedTab = "all", searchText = "") => {
+  try {
+    setLoading(true);
+
+    const params = new URLSearchParams();
+
+    if (selectedTab !== "all") {
+      params.append("status", selectedTab);
+    }
+
+    if (searchText.trim()) {
+      params.append("search", searchText);
+    }
+
+    const res = await api.get(`/patients/payments?${params.toString()}`);
+    setPatients(res.data);
+  } catch (err) {
+    console.log(err);
+  } finally {
+    setLoading(false);
+  }
+};
+
+useEffect(() => {
+  const timer = setTimeout(() => {
+    loadPatients(tab, q);
+  }, 400);
+
+  return () => clearTimeout(timer);
+}, [tab, q]);
+
+
+const maleCount = patients?.filter(p => p.gender === "male").length;
+const femaleCount = patients?.filter(p => p.gender === "female").length;
+
+const genderChartData = [
+  {
+    label: "ERKAK",
+    value: maleCount,
+    color: "#0E4EA9"
+  },
+  {
+    label: "AYOL",
+    value: femaleCount,
+    color: "#3D84DE"
+  }
+];
+
+
 
   const monthData = [
     { month: "Yan", count: 40 },
@@ -74,7 +123,10 @@ export default function Dashboard() {
       }}
     >
        
-      <PatientsPieChart  />
+      <PatientsPieChart
+  title="BEMORLAR"
+  data={genderChartData}
+/>
      
       <MonthlyHealthChart  />
       <DiseaseChart  />
@@ -130,10 +182,10 @@ export default function Dashboard() {
 
       {/* Controls */}
       <div className="dbControls">
-        <SearchInput value={q} onChange={setQ} />
+        <SearchInput value={q} onChange={changeSearch} />
 
         <PrimaryButton
-                    // onClick={() => navigate("/users/add")}
+                    onClick={() => navigate("/bemor-qoshish")}
                     className="users-addBtn"
                   >
                     Bemor qo‘shish
@@ -145,11 +197,11 @@ export default function Dashboard() {
         <div className="dbTableTop">
           <span className="dbTableTitle">Qarzdorlar royxati</span>
           <div className="dbTabs">
-            <span>| Hammasi</span>
-            <span>| Tolaganlar</span>
-            <span>| Tolamaganlar</span>
-            <span>| Qisman Tolaganlar</span>
-          </div>
+  <span style={{cursor:'pointer'}} onClick={() => setTab("all")}>| Hammasi</span>
+  <span style={{cursor:'pointer'}} onClick={() => setTab("paid")}>| Tolaganlar</span>
+  <span style={{cursor:'pointer'}} onClick={() => setTab("debt")}>| Qarzdorlar</span>
+  <span style={{cursor:'pointer'}} onClick={() => setTab("partial")}>| Qisman Tolaganlar</span>
+</div>
         </div>
 
         <table className="dbTable">
@@ -159,32 +211,64 @@ export default function Dashboard() {
               <th className="dbTh">ism/familiya</th>
               <th className="dbTh">sana</th>
               <th className="dbTh">umumiy summa</th>
+              <th className="dbTh">to'langan summa</th>
+              <th className="dbTh">qarz summa</th>
               <th className="dbTh dbThCenter">status</th>
             </tr>
           </thead>
 
-          <tbody>
-            {mockData.map((row) => (
-              <tr className="dbTr" key={row.id}>
-                <td className="dbTd">
-                  <img
-                    className="dbAvatar"
-                    src={`https://randomuser.me/api/portraits/women/${row.id + 10}.jpg`}
-                    alt="user"
-                    onError={(e) => (e.currentTarget.style.display = "none")}
-                  />
-                </td>
-                <td className="dbTd">{row.name}</td>
-                <td className="dbTd">{row.date}</td>
-                <td className="dbTd">{row.amount}</td>
-                <td className="dbTd dbTdCenter">
-                  <span className={`dbBadge ${row.status === "tolangan" ? "isPaid" : "isUnpaid"}`}>
-                    {row.status}
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
+    <tbody>
+  {loading ? (
+    <tr>
+      <td colSpan="7" className="dbLoading">
+        Yuklanmoqda...
+      </td>
+    </tr>
+  ) : (
+    patients.map((row) => {
+      const total = row.payment?.total || 0;
+      const paid = row.payment?.paid || 0;
+      const debt = row.payment?.debt || 0;
+
+      const status =
+        debt === 0
+          ? "Tolangan"
+          : paid > 0
+          ? "Qisman"
+          : "Qarzdor";
+
+      return (
+        <tr className="dbTr" key={row._id}>
+          <td className="dbTd">
+            <img
+              className="dbAvatar"
+              src={`https://ui-avatars.com/api/?name=${row.userName}`}
+              alt=""
+            />
+          </td>
+
+          <td className="dbTd">{row.userName}</td>
+          <td className="dbTd">{row.appointment?.date}</td>
+          <td className="dbTd">{total.toLocaleString()} so'm</td>
+          <td className="dbTd">{paid.toLocaleString()} so'm</td>
+          <td className="dbTd">{debt.toLocaleString()} so'm</td>
+
+          <td className="dbTd dbTdCenter">
+            <span className={`dbBadge ${
+              status === "Tolangan"
+                ? "isPaid"
+                : status === "Qisman"
+                ? "isPartial"
+                : "isUnpaid"
+            }`}>
+              {status}
+            </span>
+          </td>
+        </tr>
+      );
+    })
+  )}
+</tbody>
         </table>
       </div>
     </div>

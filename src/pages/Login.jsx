@@ -25,11 +25,11 @@ export default function Login() {
     );
 
     if (res.data?.token) {
-      console.log(res.data.token);
+      
       
       localStorage.setItem("med_auth_token", res?.data?.token);
       localStorage.setItem("admin_id", JSON.stringify(res?.data?.admin?.id));
-      console.log(res.data);
+      localStorage.setItem("med_user", JSON.stringify(res.data.admin));
       
       message.success("Kirish muvaffaqiyatli!");
       navigate("/bemorlar");

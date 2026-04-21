@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://www.apimedical.site/api",
+  baseURL: "http://localhost:5000/api",
    headers: {
     "Content-Type": "application/json"
   }
@@ -10,7 +10,7 @@ const instance = axios.create({
 // https://medical-1-t624.onrender.com
 // https://api.gsoft.uz/
 
-// https://apimedical.site
+// https://www.apimedical.site/api
 //  "http://76.13.77.216:5000/api",
 instance.interceptors.request.use((config) => {
   const token = localStorage.getItem("med_auth_token");

@@ -121,6 +121,10 @@ const fetchDoctors = async () => {
 };
 
 
+const disablePastDates = (current) => {
+  return current && current < dayjs().startOf("day");
+};
+
 
 
   return (
@@ -226,6 +230,7 @@ const fetchDoctors = async () => {
       onChange={(date, dateString) =>
         setForm({ ...form, appointmentDate: dateString })
       }
+      disabledDate={disablePastDates}
     />
   </div>
 

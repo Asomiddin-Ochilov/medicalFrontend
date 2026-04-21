@@ -1,5 +1,5 @@
 import React, { useMemo, useState,useEffect } from "react";
-import { Table,message } from "antd";
+import { Table,message, Modal } from "antd";
 import "./main.css";
 import { useNavigate } from "react-router-dom";
 import api from '../../apibaseURL'
@@ -14,9 +14,11 @@ export default function Users() {
   const [users, setUsers] = useState([]);
   const [usersAll, setUsersAll] = useState([]);
 const [loading, setLoading] = useState(true);
+const [hrOpen, setHrOpen] = useState(false);
+const [hrData, setHrData] = useState([]);
   const [q, setQ] = useState("");
   const [page, setPage] = useState(1);
-
+const currentUser = JSON.parse(localStorage.getItem("med_user"));
   const pageSize = 10;
 
 const filtered = useMemo(() => {
@@ -171,9 +173,15 @@ useEffect(() => {
             <SearchInput value={q} searchFunc={searchFunc} onChange={searchChange} />
           </div>
 
-          <button className="users-hrBtn" type="button">
-            HR
-          </button>
+     {currentUser?.position === "Manager" && (
+  <button
+    className="users-hrBtn"
+    type="button"
+    onClick={() => navigate("/users/hr")}
+  >
+    HR
+  </button>
+)}
         </div>
 
         <div className="users-rightTools">

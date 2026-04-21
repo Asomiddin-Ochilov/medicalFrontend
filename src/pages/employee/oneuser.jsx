@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect, useState } from "react";
 import "./user-page.css";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import api from '../../apibaseURL'
 import { message } from "antd";
 import img from '../avatar.webp'
@@ -10,8 +10,9 @@ export default function UserPage() {
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
-
+  const currentUser = JSON.parse(localStorage.getItem("med_user"));
+  const navigate = useNavigate();
+const [deleteLoading, setDeleteLoading] = useState(false);
   const fetchUser = async () => {
     try {
       setLoading(true);
@@ -37,6 +38,32 @@ export default function UserPage() {
   useEffect(() => {
     fetchUser();
   }, [id]);
+
+
+const handleDelete = async (id) => {
+  try {
+    setDeleteLoading(true);
+
+    const token = localStorage.getItem("med_auth_token");
+
+    await api.delete(`/users/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    message.success("Foydalanuvchi o‘chirildi");
+
+    setTimeout(() => {
+      navigate("/users");
+    }, 800);
+
+  } catch (err) {
+    message.error("O‘chirishda xatolik");
+  } finally {
+    setDeleteLoading(false);
+  }
+};
 
   const stats = useMemo(
     () => [
@@ -112,6 +139,15 @@ export default function UserPage() {
             </div>
           ))}
         </div>
+    {currentUser?.position === "Manager" && (
+  <button
+    className="up-deleteBtn"
+    onClick={() => handleDelete(user._id)}
+    disabled={deleteLoading}
+  >
+    {deleteLoading ? "O‘chirilmoqda..." : "O‘chirish"}
+  </button>
+)}
       </section>
 
       {/* TABLE CARD */}
